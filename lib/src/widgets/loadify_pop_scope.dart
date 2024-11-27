@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loadify/loadify.dart';
-
-import '../enums/enums.exports.dart';
+import '../../loadify.dart';
 
 class LoadifyPopScope extends StatefulWidget {
   /// A widget that wraps another widget and controls whether the wrapped widget
