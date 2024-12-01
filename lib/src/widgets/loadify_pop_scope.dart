@@ -36,16 +36,17 @@ class _LoadifyPopScopeState extends State<LoadifyPopScope> {
   void initState() {
     super.initState();
     _loadingNotifier = ValueNotifier<bool>(false);
-    Loadify.addStatusListener(_statusCallback);
+    Loadify.addStatusListener(_statusListener);
   }
 
   @override
   void dispose() {
     _loadingNotifier.dispose();
+    Loadify.removeStatusListener(_statusListener);
     super.dispose();
   }
 
-  void _statusCallback(LoadifyStatus status) {
+  void _statusListener(LoadifyStatus status) {
     if (status.isLoading) {
       _loadingNotifier.value = true;
     } else {
