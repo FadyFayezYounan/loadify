@@ -4,11 +4,10 @@ import '../enums/enums.exports.dart';
 import '../utils/utils.exports.dart';
 import '../widgets/widgets.exports.dart';
 
-/// A singleton controller class for managing the Loadify loading indicator.
+/// A singleton controller class for managing the Loadify loading indicator and its callbacks.
 ///
-/// The `LoadifyController` class provides methods to update and manage the
-/// loading indicator widget, loading status, and overlay entry. It ensures
-/// that only one instance of the controller exists throughout the application.
+/// The `LoadifyController` class provides methods to update the loading indicator widget,
+/// manage status callbacks, and refresh the overlay entry.
 ///
 /// Usage:
 /// ```dart
@@ -16,15 +15,17 @@ import '../widgets/widgets.exports.dart';
 /// ```
 ///
 /// Methods:
-/// - `updateIndicatorWidget(Widget? widget)`: Updates the loading indicator widget.
-/// - `onStatusChanged(LoadifyLoadingStatusCallback callback)`: Registers a callback to be called when the loading status changes.
-/// - `updateStatus(LoadifyStatus status)`: Updates the loading status and calls the registered callback.
-/// - `initEntry(LoadifyOverlayEntry? entry)`: Initializes the overlay entry for the loading indicator.
-/// - `refresh()`: Refreshes the overlay entry and asserts that Loadify is initialized.
+/// - `LoadifyController()` - Factory constructor to get the singleton instance.
+/// - `updateIndicatorWidget(Widget? widget)` - Updates the loading indicator widget.
+/// - `addStatusCallback(LoadifyLoadingStatusCallback callback)` - Adds a status callback.
+/// - `removeStatusCallback(LoadifyLoadingStatusCallback callback)` - Removes a status callback.
+/// - `clearStatusCallbacks()` - Clears all status callbacks.
+/// - `updateCallbacks(LoadifyStatus status)` - Updates all registered callbacks with the given status.
+/// - `initEntry(LoadifyOverlayEntry? entry)` - Initializes the overlay entry.
+/// - `refresh()` - Refreshes the overlay entry and asserts if it is not initialized.
 ///
 /// Properties:
-/// - `indicatorWidget`: Gets the current loading indicator widget.
-/// - `loadifyStatus`: Gets the current loading status.
+/// - `indicatorWidget` - Gets the current loading indicator widget.
 
 final class LoadifyController {
   static LoadifyController? _instance;
@@ -42,16 +43,23 @@ final class LoadifyController {
     _indicatorWidget = widget;
   }
 
-  LoadifyStatus? _loadifyStatus;
-  LoadifyStatus? get loadifyStatus => _loadifyStatus;
-  LoadifyLoadingStatusCallback? _loadifyLoadingStatusCallback;
-  void onStatusChanged(LoadifyLoadingStatusCallback callback) {
-    _loadifyLoadingStatusCallback = callback;
+  final Set<LoadifyLoadingStatusCallback> _loadifyStatusCallbacks = {};
+  void addStatusCallback(LoadifyLoadingStatusCallback callback) {
+    _loadifyStatusCallbacks.add(callback);
   }
 
-  void updateStatus(LoadifyStatus status) {
-    _loadifyStatus = status;
-    _loadifyLoadingStatusCallback?.call(status);
+  void removeStatusCallback(LoadifyLoadingStatusCallback callback) {
+    _loadifyStatusCallbacks.remove(callback);
+  }
+
+  void clearStatusCallbacks() {
+    _loadifyStatusCallbacks.clear();
+  }
+
+  void updateCallbacks(LoadifyStatus status) {
+    for (var callback in _loadifyStatusCallbacks) {
+      callback(status);
+    }
   }
 
   LoadifyOverlayEntry? _loadifyOverlayEntry;

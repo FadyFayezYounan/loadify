@@ -59,9 +59,18 @@ Loadify.hide();
 ### 4. Track Loading Status (Optional)
 
 ```dart
-Loadify.onStatusChanged((status) {
-  print('Current status: $status');
-});
+
+void listener(LoadifyStatus status) {
+  if (status == LoadifyStatus.loading) {
+    // Loading started
+  } else {
+    // Loading completed
+  }
+}
+Loadify.addStatusListener(listener);
+
+// Don't forget to remove the listener when no longer needed
+Loadify.removeStatusListener(listener);
 ```
 
 ### 5. LoadifyPopScope: Preventing Back Button
@@ -108,7 +117,10 @@ Loadify.show(
 - `Loadify.initialize()`: Initialize Loadify in your app
 - `Loadify.show()`: Display loading indicator
 - `Loadify.hide()`: Dismiss loading indicator
-- `Loadify.onStatusChanged()`: Listen to loading status changes
+- `Loadify.addStatusListener()`: Listen to loading status changes
+- `Loadify.removeStatusListener()`: Remove status listener
+- `Loadify.clearStatusListeners()`: Remove all status listeners
+-
 
 ### Loading Status
 

@@ -103,8 +103,16 @@ abstract final class Loadify {
   ///   // React to loading status changes
   /// });
   /// ```
-  static void onStatusChanged(LoadifyLoadingStatusCallback callback) {
-    _controller.onStatusChanged(callback);
+  static void addStatusListener(LoadifyLoadingStatusCallback callback) {
+    _controller.addStatusCallback(callback);
+  }
+
+  static void removeStatusListener(LoadifyLoadingStatusCallback callback) {
+    _controller.removeStatusCallback(callback);
+  }
+
+  static void clearStatusListeners() {
+    _controller.clearStatusCallbacks();
   }
 
   /// Shows the loading indicator with optional customization.
@@ -132,7 +140,7 @@ abstract final class Loadify {
         builder: builder,
         backgroundColor: backgroundColor,
       ))
-      ..updateStatus(LoadifyStatus.loading)
+      ..updateCallbacks(LoadifyStatus.loading)
       ..refresh();
   }
 
@@ -147,7 +155,7 @@ abstract final class Loadify {
   static void hide() {
     _controller
       ..updateIndicatorWidget(null)
-      ..updateStatus(LoadifyStatus.idle)
+      ..updateCallbacks(LoadifyStatus.idle)
       ..refresh();
   }
 }

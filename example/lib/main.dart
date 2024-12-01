@@ -39,11 +39,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    Loadify.onStatusChanged(
-      (loadingStatus) {
-        log("loadingStatus: $loadingStatus");
-      },
-    );
+    Loadify.addStatusListener(_listener);
+  }
+
+  void _listener(loadingStatus) {
+    log("loadingStatus: $loadingStatus");
+  }
+
+  @override
+  void dispose() {
+    Loadify.removeStatusListener(_listener);
+    super.dispose();
   }
 
   @override
