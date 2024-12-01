@@ -93,24 +93,49 @@ abstract final class Loadify {
     };
   }
 
-  /// Registers a callback to be invoked when the loading status changes.
+  /// Adds a status listener to the Loadify.
   ///
-  /// [callback] Function to be called with the new loading status
+  /// This method allows you to add a callback that will be invoked
+  /// whenever the loading status changes.
   ///
-  /// ### Usage
+  /// The callback should be of type [LoadifyLoadingStatusCallback].
+  ///
+  /// Example usage:
   /// ```dart
-  /// Loadify.onStatusChanged((status) {
-  ///   // React to loading status changes
+  /// Loadify.addStatusListener((status) {
+  ///   // Handle the status change
   /// });
-  /// ```
   static void addStatusListener(LoadifyLoadingStatusCallback callback) {
     _controller.addStatusCallback(callback);
   }
 
+  /// Removes a status listener from the Loadify.
+  ///
+  /// This method allows you to remove a previously added callback
+  /// that was invoked whenever the loading status changed.
+  ///
+  /// The callback should be of type [LoadifyLoadingStatusCallback].
+  ///
+  /// Example usage:
+  /// ```dart
+  /// Loadify.removeStatusListener(myCallback);
+  /// ```
   static void removeStatusListener(LoadifyLoadingStatusCallback callback) {
     _controller.removeStatusCallback(callback);
   }
 
+  /// Clears all status listeners from the Loadify controller.
+  ///
+  /// This method removes all previously added callbacks that were
+  /// invoked whenever the loading status changed.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// Loadify.clearStatusListeners();
+  /// ```
+  ///
+  /// This is useful when you want to reset the state and remove all
+  /// listeners at once.
   static void clearStatusListeners() {
     _controller.clearStatusCallbacks();
   }
