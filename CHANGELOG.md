@@ -1,3 +1,7 @@
+## 0.0.5
+
+- add topics for pub.dev.
+
 ## 0.0.4
 
 - remove listener when no longer needed in LoadifyPopScope widget.

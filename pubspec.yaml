@@ -1,7 +1,14 @@
 name: loadify
 description: "A simple and customizable loading overlay package for Flutter applications without the need of context."
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/FadyFayezYounan/loadify.git
+
+topics:
+  - overlay-loading
+  - loading
+  - overlay
+  - loadify
+  - flutter-overlay-loading
 
 environment:
   sdk: ^3.5.3
